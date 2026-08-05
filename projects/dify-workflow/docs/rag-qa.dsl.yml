@@ -1,0 +1,149 @@
+app:
+  description: FAQ ナレッジベースに基づく RAG Q&A ボット
+  icon: books
+  icon_background: '#E4FBCC'
+  icon_type: emoji
+  mode: advanced-chat
+  name: rag-qa
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:1.0.3@cc37544750d72ca3782bdaa81ab0e2facbf5bb74105a169a7ff974a27c6a5f29
+    version: null
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      enabled: false
+    opening_statement: TaskFlow の FAQ ボットです。プラン・機能・セキュリティについて質問してください。
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: start
+        targetType: knowledge-retrieval
+      id: e1
+      source: start
+      sourceHandle: source
+      target: kr
+      targetHandle: target
+      type: custom
+    - data:
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: e2
+      source: kr
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+    - data:
+        sourceType: llm
+        targetType: answer
+      id: e3
+      source: llm
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+    nodes:
+    - data:
+        title: 開始
+        type: start
+        variables: []
+      id: start
+      position:
+        x: 30
+        y: 200
+      type: custom
+    - data:
+        dataset_ids:
+        - 0de4AqqETJsqMqEd+aYNA4iqQhhiftD+oDbsZ2PoyY8BfizM6R8XBpSeU62FXXsM
+        metadata_filtering_mode: disabled
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: reranking_model
+          reranking_model: null
+          score_threshold: 0.3
+          top_k: 4
+          weights: null
+        query_variable_selector:
+        - sys
+        - query
+        retrieval_mode: multiple
+        title: 知識取得(FAQ)
+        type: knowledge-retrieval
+      id: kr
+      position:
+        x: 330
+        y: 200
+      type: custom
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - kr
+          - result
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - role: system
+          text: 'あなたは架空のタスク管理 SaaS「TaskFlow」のサポート担当です。
+
+            以下のルールに従って質問に回答してください。
+
+
+            - 回答は必ず <コンテキスト> の情報だけに基づくこと。推測で補わない。
+
+            - コンテキストに答えがない場合は「申し訳ありませんが、その情報は FAQ に見つかりませんでした。サポート窓口にお問い合わせください。」とだけ答える。
+
+            - 回答は日本語で、簡潔に。料金や数値は正確に引用する。
+
+
+            <コンテキスト>
+
+            {{#context#}}
+
+            </コンテキスト>'
+        - role: user
+          text: '{{#sys.query#}}'
+        title: 回答生成
+        type: llm
+        vision:
+          enabled: false
+      id: llm
+      position:
+        x: 630
+        y: 200
+      type: custom
+    - data:
+        answer: '{{#llm.text#}}'
+        title: 回答
+        type: answer
+      id: answer
+      position:
+        x: 930
+        y: 200
+      type: custom
+  rag_pipeline_variables: []

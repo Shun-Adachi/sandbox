@@ -1,0 +1,24 @@
+# 個人用ワークスペース(案件メモ・チケット等)— コミットしない
+.claude/
+CLAUDE.local.md
+
+# 環境・依存
+.venv/
+venv/
+node_modules/
+__pycache__/
+*.pyc
+dist/
+build/
+
+# 機密
+.env
+.env.*
+
+# サードパーティのクローン(Dify 本体など)
+projects/dify-workflow/dify/
+
+# データ・一時ファイル
+data/
+*.log
+.DS_Store

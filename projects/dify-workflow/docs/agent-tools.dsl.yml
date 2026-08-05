@@ -1,0 +1,159 @@
+app:
+  description: Web 検索ツールを使うリサーチエージェント
+  icon: mag
+  icon_background: '#D5F5F6'
+  icon_type: emoji
+  mode: advanced-chat
+  name: agent-tools
+  use_icon_as_answer_icon: false
+dependencies: []
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      enabled: false
+    opening_statement: Web 検索を使って調べ物をするエージェントです。
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: start
+        targetType: agent
+      id: e1
+      source: start
+      sourceHandle: source
+      target: agent
+      targetHandle: target
+      type: custom
+    - data:
+        sourceType: agent
+        targetType: answer
+      id: e2
+      source: agent
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+    nodes:
+    - data:
+        title: 開始
+        type: start
+        variables: []
+      id: start
+      position:
+        x: 30
+        y: 200
+      type: custom
+    - data:
+        agent_parameters:
+          instruction:
+            type: constant
+            value: 'あなたは日本語で回答する天気アシスタントです。
+
+              都市の天気を聞かれたら、必ず次の手順で答えてください。
+
+              1. search_city ツールで緯度経度を取得する。name には都市名を必ず英語・ローマ字表記で渡すこと(例: 大阪 → Osaka、札幌
+              → Sapporo)。language は ja を指定する。複数候補が返ったら日本の都市を優先する。
+
+              2. get_current_weather ツールにその latitude / longitude を渡し、現在の天気を取得する(latitude
+              と longitude だけ渡せばよい。current と timezone は指定不要)。
+
+              3. 気温・天気・風速・湿度を日本語で簡潔にまとめる。weather_code は WMO コード(0=快晴, 1-3=晴れ〜曇り, 45-48=霧,
+              51-67=雨, 71-77=雪, 80-82=にわか雨, 95-99=雷雨)として解釈する。
+
+              同じツールが 2 回連続で空の結果を返したら、それ以上繰り返さず、取得できなかった旨を答える。
+
+              天気以外の質問には、ツールを使わず一般知識で答えて構いません。'
+          maximum_iterations:
+            type: constant
+            value: 5
+          model:
+            type: constant
+            value:
+              completion_params:
+                temperature: 0.3
+              mode: chat
+              model: gpt-4o-mini
+              model_type: llm
+              provider: langgenius/openai/openai
+              type: model-selector
+          query:
+            type: mixed
+            value: '{{#sys.query#}}'
+          tools:
+            type: constant
+            value:
+            - enabled: true
+              extra:
+                description: 都市名から緯度経度を検索する。天気を調べる前に必ず呼ぶ。
+              parameters: {}
+              plugin_unique_identifier: null
+              provider_id: 469482d0-306b-4a68-8506-3ed78367c087
+              provider_name: 469482d0-306b-4a68-8506-3ed78367c087
+              provider_show_name: open_meteo_geocoding
+              settings: {}
+              tool_description: 都市名から緯度経度を検索する。天気を調べる前に必ず呼ぶ。
+              tool_label: 都市検索
+              tool_name: search_city
+              type: api
+            - enabled: true
+              extra:
+                description: 緯度経度から現在の天気(気温・天気コード・風速・湿度)を取得する。
+              parameters:
+                current:
+                  auto: 0
+                  value:
+                    type: constant
+                    value: temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m
+                timezone:
+                  auto: 0
+                  value:
+                    type: constant
+                    value: Asia/Tokyo
+              plugin_unique_identifier: null
+              provider_id: e658cbc9-af45-438a-9ec8-758b4df2cd33
+              provider_name: e658cbc9-af45-438a-9ec8-758b4df2cd33
+              provider_show_name: open_meteo_forecast
+              settings: {}
+              tool_description: 緯度経度から現在の天気(気温・天気コード・風速・湿度)を取得する。
+              tool_label: 現在の天気
+              tool_name: get_current_weather
+              type: api
+        agent_strategy_label: FunctionCalling
+        agent_strategy_name: function_calling
+        agent_strategy_provider_name: langgenius/agent/agent
+        output_schema: null
+        plugin_unique_identifier: langgenius/agent:0.0.42@2ae22966e893dced869cf04dba918eff6c14c05a3c3d7f04c2ed4f7da825b67f
+        title: リサーチエージェント
+        tool_node_version: '2'
+        type: agent
+      id: agent
+      position:
+        x: 330
+        y: 200
+      type: custom
+    - data:
+        answer: '{{#agent.text#}}'
+        title: 回答
+        type: answer
+      id: answer
+      position:
+        x: 630
+        y: 200
+      type: custom
+  rag_pipeline_variables: []

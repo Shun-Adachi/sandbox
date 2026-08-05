@@ -1,0 +1,220 @@
+app:
+  description: 問い合わせテキストの構造化抽出 + 検証 + 分岐
+  icon: card_index_dividers
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: workflow
+  name: doc-extract
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:1.0.3@cc37544750d72ca3782bdaa81ab0e2facbf5bb74105a169a7ff974a27c6a5f29
+    version: null
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload: {}
+    sensitive_word_avoidance:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: start
+        targetType: llm
+      id: e1
+      source: start
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+    - data:
+        sourceType: llm
+        targetType: code
+      id: e2
+      source: llm
+      sourceHandle: source
+      target: code
+      targetHandle: target
+      type: custom
+    - data:
+        sourceType: code
+        targetType: if-else
+      id: e3
+      source: code
+      sourceHandle: source
+      target: ifelse
+      targetHandle: target
+      type: custom
+    - data:
+        sourceType: if-else
+        targetType: end
+      id: e4
+      source: ifelse
+      sourceHandle: 'true'
+      target: end_ok
+      targetHandle: target
+      type: custom
+    - data:
+        sourceType: if-else
+        targetType: end
+      id: e5
+      source: ifelse
+      sourceHandle: 'false'
+      target: end_ng
+      targetHandle: target
+      type: custom
+    nodes:
+    - data:
+        title: 開始
+        type: start
+        variables:
+        - label: 問い合わせテキスト
+          max_length: 4096
+          options: []
+          required: true
+          type: paragraph
+          variable: text
+      id: start
+      position:
+        x: 30
+        y: 250
+      type: custom
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - role: system
+          text: 'あなたはカスタマーサポート宛の問い合わせメールを解析するアシスタントです。
+
+            入力テキストから以下の項目を抽出し、JSON オブジェクトのみを出力してください(説明文・コードフェンス不要)。
+
+
+            - name: 差出人の氏名。不明なら空文字
+
+            - company: 会社名。不明なら空文字
+
+            - category: 問い合わせ種別。"質問" | "不具合" | "解約" | "その他" のいずれか
+
+            - urgency: 緊急度。"高" | "中" | "低" のいずれか(業務停止・データ消失は高)
+
+            - summary: 要件の 1 文要約(日本語、50 字以内)'
+        - role: user
+          text: '{{#start.text#}}'
+        title: 構造化抽出
+        type: llm
+        vision:
+          enabled: false
+      id: llm
+      position:
+        x: 330
+        y: 250
+      type: custom
+    - data:
+        code: "def main(raw: str) -> dict:\n    import json\n    s = raw.strip()\n\
+          \    if s.startswith(\"```\"):\n        lines = [l for l in s.splitlines()\
+          \ if not l.strip().startswith(\"```\")]\n        s = \"\\n\".join(lines)\n\
+          \    try:\n        data = json.loads(s)\n    except Exception as e:\n  \
+          \      return {\"valid\": \"false\", \"data\": {}, \"error\": f\"JSON parse\
+          \ error: {e}\"}\n    errors = []\n    for key in (\"name\", \"company\"\
+          , \"category\", \"urgency\", \"summary\"):\n        if key not in data:\n\
+          \            errors.append(f\"missing key: {key}\")\n    if data.get(\"\
+          category\") not in (\"質問\", \"不具合\", \"解約\", \"その他\"):\n        errors.append(f\"\
+          invalid category: {data.get('category')}\")\n    if data.get(\"urgency\"\
+          ) not in (\"高\", \"中\", \"低\"):\n        errors.append(f\"invalid urgency:\
+          \ {data.get('urgency')}\")\n    if errors:\n        return {\"valid\": \"\
+          false\", \"data\": {}, \"error\": \"; \".join(errors)}\n    return {\"valid\"\
+          : \"true\", \"data\": data, \"error\": \"\"}"
+        code_language: python3
+        outputs:
+          data:
+            children: null
+            type: object
+          error:
+            children: null
+            type: string
+          valid:
+            children: null
+            type: string
+        title: 検証
+        type: code
+        variables:
+        - value_selector:
+          - llm
+          - text
+          variable: raw
+      id: code
+      position:
+        x: 630
+        y: 250
+      type: custom
+    - data:
+        _targetBranches:
+        - id: 'true'
+          name: IF
+        - id: 'false'
+          name: ELSE
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: c1
+            value: 'true'
+            variable_selector:
+            - code
+            - valid
+          logical_operator: and
+        logical_operator: and
+        title: 検証OK?
+        type: if-else
+      id: ifelse
+      position:
+        x: 930
+        y: 250
+      type: custom
+    - data:
+        outputs:
+        - value_selector:
+          - code
+          - data
+          variable: extracted
+        title: 抽出成功
+        type: end
+      id: end_ok
+      position:
+        x: 1230
+        y: 150
+      type: custom
+    - data:
+        outputs:
+        - value_selector:
+          - code
+          - error
+          variable: error
+        - value_selector:
+          - llm
+          - text
+          variable: raw_output
+        title: 抽出失敗
+        type: end
+      id: end_ng
+      position:
+        x: 1230
+        y: 380
+      type: custom
+  rag_pipeline_variables: []
