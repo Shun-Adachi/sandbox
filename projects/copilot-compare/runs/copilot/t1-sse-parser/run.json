@@ -8,9 +8,9 @@
     "turns": 1
   },
   "phase_b": {
-    "minutes": null,
-    "turns": null,
+    "minutes": 6,
+    "turns": 4,
     "hint_level": null
   },
-  "notes": "Phase A: チャンクをまたぐ\\r+\\nの持ち越し状態が無く、\\rで終わるチャンクの次の\\nが余計な空行になる。境界テスト3件中2件はまぐれで通過"
+  "notes": "Phase A(32/33): チャンクをまたぐ\\r+\\nの持ち越し状態が無い。境界テスト3件中2件はまぐれで通過。Phase B は L3 まで使い切って未達。L1(31/33) 末尾\\rを保留する方式に変更、close()が常に空を返す仕様と噛み合わず原理的に袋小路。L2(31/33) 正しい_pending_crを追加したがL1のbreakを残したため到達不能な死にコードに。L3(32/33) breakを除去したが同時に_pending_crの使用も除去し、Phase Aと等価な実装に戻った。close()に読まれない_pending_cr=Falseだけが残骸として残存。途中でpytest実行とpip install --userを要求したので規定文面で拒否(1往復に計上)"
 }

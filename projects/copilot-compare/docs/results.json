@@ -1,14 +1,14 @@
 [
   {
-    "agent": "verify",
-    "task": "t2-retry-policy",
+    "agent": "(参照実装)",
+    "task": "t1-sse-parser",
     "phase_a": {
-      "passed": 0,
-      "total": 50,
-      "status": "fail"
+      "passed": 33,
+      "total": 33,
+      "status": "ok"
     },
     "phase_b": null,
-    "lines": 23,
+    "lines": 94,
     "model": "",
     "mode": "",
     "a_minutes": null,
@@ -17,5 +17,47 @@
     "b_turns": null,
     "hint_level": null,
     "notes": ""
+  },
+  {
+    "agent": "(参照実装)",
+    "task": "t2-retry-policy",
+    "phase_a": {
+      "passed": 50,
+      "total": 50,
+      "status": "ok"
+    },
+    "phase_b": null,
+    "lines": 62,
+    "model": "",
+    "mode": "",
+    "a_minutes": null,
+    "a_turns": null,
+    "b_minutes": null,
+    "b_turns": null,
+    "hint_level": null,
+    "notes": ""
+  },
+  {
+    "agent": "copilot",
+    "task": "t1-sse-parser",
+    "phase_a": {
+      "passed": 32,
+      "total": 33,
+      "status": "fail"
+    },
+    "phase_b": {
+      "passed": 32,
+      "total": 33,
+      "status": "fail"
+    },
+    "lines": 89,
+    "model": "auto (non-reasoning, confidence 82%)",
+    "mode": "agent",
+    "a_minutes": 1,
+    "a_turns": 1,
+    "b_minutes": 6,
+    "b_turns": 4,
+    "hint_level": null,
+    "notes": "Phase A(32/33): チャンクをまたぐ\\r+\\nの持ち越し状態が無い。境界テスト3件中2件はまぐれで通過。Phase B は L3 まで使い切って未達。L1(31/33) 末尾\\rを保留する方式に変更、close()が常に空を返す仕様と噛み合わず原理的に袋小路。L2(31/33) 正しい_pending_crを追加したがL1のbreakを残したため到達不能な死にコードに。L3(32/33) breakを除去したが同時に_pending_crの使用も除去し、Phase Aと等価な実装に戻った。close()に読まれない_pending_cr=Falseだけが残骸として残存。途中でpytest実行とpip install --userを要求したので規定文面で拒否(1往復に計上)"
   }
 ]

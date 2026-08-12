@@ -49,6 +49,7 @@ class SSEParser:
         self._buffer = ""
         self._event_type = ""
         self._data = ""
+        self._pending_cr = False
         return []
 
     def _next_line(self, text: str) -> tuple[str | None, str, str]:
@@ -63,7 +64,7 @@ class SSEParser:
                     if text[i + 1] == "\n":
                         return text[:i], "\r\n", text[i + 2 :]
                     return text[:i], "\r", text[i + 1 :]
-                break
+                return text[:i], "\r", ""
             i += 1
         return None, "", text
 
