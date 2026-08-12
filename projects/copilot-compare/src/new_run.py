@@ -20,9 +20,9 @@ META_TEMPLATE = {
     "agent": "",
     "model": "",
     "mode": "",
-    "minutes": None,
-    "turns": None,
     "used_spec_only": True,
+    "phase_a": {"minutes": None, "turns": None},
+    "phase_b": {"minutes": None, "turns": None, "hint_level": None},
     "notes": "",
 }
 

@@ -1,0 +1,16 @@
+{
+  "agent": "copilot",
+  "model": "auto (non-reasoning, confidence 82%)",
+  "mode": "agent",
+  "used_spec_only": true,
+  "phase_a": {
+    "minutes": 1,
+    "turns": 1
+  },
+  "phase_b": {
+    "minutes": null,
+    "turns": null,
+    "hint_level": null
+  },
+  "notes": "Phase A: チャンクをまたぐ\\r+\\nの持ち越し状態が無く、\\rで終わるチャンクの次の\\nが余計な空行になる。境界テスト3件中2件はまぐれで通過"
+}
