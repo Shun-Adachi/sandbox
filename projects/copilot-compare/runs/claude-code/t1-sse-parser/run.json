@@ -4,13 +4,13 @@
   "mode": "cli",
   "used_spec_only": true,
   "phase_a": {
-    "minutes": 2,
+    "minutes": 1,
     "turns": 1
   },
   "phase_b": {
-    "minutes": 2,
-    "turns": 1,
+    "minutes": null,
+    "turns": null,
     "hint_level": null
   },
-  "notes": "Phase A(31/33): チャンク境界の \\r を認識した上で「確定させず持ち越す」方式を選択。Copilot が L1 で到達したのと同じ設計で、ストリームが \\r で終わると最後の行が回収されず close() が破棄するため2件落ちる。境界を無視した Copilot の Phase A(1件落ち)より失敗が多い。自前の selfcheck.py(123行/29検査)を書いて実行したが、CR分割の検査は全て \\n 終端の入力で、末尾が裸の \\r で終わるケースを一件も含んでいなかった。行数は selfcheck.py を含む値で Copilot とは直接比較できない。【Phase B は計測無効】L1 を出す前に、採点側が run.json の notes に書いた失敗原因の分析がエージェントの context に入っていた(当時 run.json は作業ディレクトリ内にあった)。33/33 に到達したが実質 L3 以上の情報が渡っており、hint_level は記録しない。エージェント自身がこの汚染を申告した。ハーネスは work/ 隔離に修正済み"
+  "notes": "2回目(1回目は Phase B が汚染で無効。git 履歴に残存)。Phase A 満点のため Phase B なし。最初から後追い方式(_pending_cr)を採用し、1回目が選んだ持ち越し方式の袋小路を回避している。selfcheck は書かず83行。used_spec_only はエージェントの自己申告で、tests/ と reference/ を読んでいないことのみをカバーする。README.md の「検証で分かったこと」には1回目の失敗原因と正解の方向が書かれており、git 履歴には参照実装も残っているが、そこを読んだかは未確認。1回目31/33・2回目33/33 という差は、同一モデル・同一プロンプトでの run 間分散か、この汚染かを切り分けられていない"
 }

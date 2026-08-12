@@ -13,7 +13,7 @@
 | [prompt-eval](projects/prompt-eval/) | Python, OpenAI API | 未着手 | - |
 | [dify-workflow](projects/dify-workflow/) | Dify, Docker | 完了 | RAG・構造化抽出・エージェントの 3 ワークフロー(DSL) |
 | [ts-llm-client](projects/ts-llm-client/) | TypeScript, Node.js | 未着手 | - |
-| [copilot-compare](projects/copilot-compare/) | Python, GitHub Copilot, Claude Code | 進行中 | 同一課題をエージェント間で比較する採点ハーネス + 課題 2 件 |
+| [copilot-compare](projects/copilot-compare/) | Python, GitHub Copilot, Claude Code | 進行中 | 同一課題をエージェント間で比較する採点ハーネス + 課題 2 件。Copilot 2 本 / Claude Code 1 本を計測済み |
 
 ## ディレクトリ構成(テーマ共通)
 
