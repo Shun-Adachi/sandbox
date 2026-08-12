@@ -167,7 +167,7 @@ def test_retry_after_http_date_is_not_capped():
 # --- Retry-After: 不正値 --------------------------------------------------
 
 
-@pytest.mark.parametrize("value", ["soon", "-5", "3.5", "", "１０"])
+@pytest.mark.parametrize("value", ["soon", "-5", "3.5", "", "１０", "  3  "])
 def test_unparsable_retry_after_falls_back_to_backoff(value):
     got = RetryPolicy(max_attempts=5).next_delay(2, status=503, retry_after=value)
     assert got == pytest.approx(1.0)
@@ -176,8 +176,3 @@ def test_unparsable_retry_after_falls_back_to_backoff(value):
 def test_unparsable_retry_after_does_not_raise_without_now():
     got = RetryPolicy().next_delay(1, status=503, retry_after="soon")
     assert got == pytest.approx(0.5)
-
-
-def test_retry_after_with_surrounding_whitespace():
-    got = RetryPolicy().next_delay(1, status=429, retry_after="  3  ")
-    assert got == pytest.approx(3.0)

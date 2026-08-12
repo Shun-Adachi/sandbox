@@ -55,12 +55,13 @@ class RetryPolicy:
 
     @staticmethod
     def _parse_retry_after(value: str, now: datetime | None) -> float | None:
-        text = value.strip()
-        if text.isascii() and text.isdigit():
-            return float(text)
+        # 仕様は「ASCII 数字のみ」。前後の空白を取り除くとは書いていないので、
+        # "  3  " は数字として扱わず、HTTP-date としても解釈できずバックオフに落ちる。
+        if value.isascii() and value.isdigit():
+            return float(value)
 
         try:
-            when = parsedate_to_datetime(text)
+            when = parsedate_to_datetime(value)
         except (TypeError, ValueError):
             return None
         if when is None:

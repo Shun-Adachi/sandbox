@@ -1,0 +1,16 @@
+{
+  "agent": "copilot",
+  "model": "auto (routed model 未記録)",
+  "mode": "agent",
+  "used_spec_only": true,
+  "phase_a": {
+    "minutes": 1,
+    "turns": 1
+  },
+  "phase_b": {
+    "minutes": null,
+    "turns": null,
+    "hint_level": null
+  },
+  "notes": "1往復1分で満点。当初 49/50 だったが、落ちた test_retry_after_with_surrounding_whitespace は仕様書に無い挙動(前後の空白の除去)を検査していたこちらの不備。Copilot は仕様通り \"  3  \" をバックオフに落としており正しかった。テストを仕様に合わせて修正し(不正値のパラメータに移動)、参照実装から .strip() を除去。spec.md は変更していない"
+}

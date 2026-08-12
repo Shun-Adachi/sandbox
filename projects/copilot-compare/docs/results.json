@@ -27,7 +27,7 @@
       "status": "ok"
     },
     "phase_b": null,
-    "lines": 62,
+    "lines": 61,
     "model": "",
     "mode": "",
     "a_minutes": null,
@@ -59,5 +59,24 @@
     "b_turns": 4,
     "hint_level": null,
     "notes": "Phase A(32/33): チャンクをまたぐ\\r+\\nの持ち越し状態が無い。境界テスト3件中2件はまぐれで通過。Phase B は L3 まで使い切って未達。L1(31/33) 末尾\\rを保留する方式に変更、close()が常に空を返す仕様と噛み合わず原理的に袋小路。L2(31/33) 正しい_pending_crを追加したがL1のbreakを残したため到達不能な死にコードに。L3(32/33) breakを除去したが同時に_pending_crの使用も除去し、Phase Aと等価な実装に戻った。close()に読まれない_pending_cr=Falseだけが残骸として残存。途中でpytest実行とpip install --userを要求したので規定文面で拒否(1往復に計上)"
+  },
+  {
+    "agent": "copilot",
+    "task": "t2-retry-policy",
+    "phase_a": {
+      "passed": 50,
+      "total": 50,
+      "status": "ok"
+    },
+    "phase_b": null,
+    "lines": 69,
+    "model": "auto (routed model 未記録)",
+    "mode": "agent",
+    "a_minutes": 1,
+    "a_turns": 1,
+    "b_minutes": null,
+    "b_turns": null,
+    "hint_level": null,
+    "notes": "1往復1分で満点。当初 49/50 だったが、落ちた test_retry_after_with_surrounding_whitespace は仕様書に無い挙動(前後の空白の除去)を検査していたこちらの不備。Copilot は仕様通り \"  3  \" をバックオフに落としており正しかった。テストを仕様に合わせて修正し(不正値のパラメータに移動)、参照実装から .strip() を除去。spec.md は変更していない"
   }
 ]
