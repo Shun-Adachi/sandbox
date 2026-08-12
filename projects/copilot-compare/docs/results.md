@@ -11,12 +11,15 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | (参照実装) | t1-sse-parser | ✅ 33/33 | - | - | - | - | 94 |  |  |
 | (参照実装) | t2-retry-policy | ✅ 50/50 | - | - | - | - | 61 |  |  |
+| claude-code | t1-sse-parser | ❌ 31/33 | ✅ 33/33 | - | 1 / +1 | 2 / +2 | 195 | claude-opus-5[1m] | Phase A(31/33): チャンク境界の \r を認識した上で「確定させず持ち越す」方式を選択。Copilot が L1 で到達したのと同じ設計で、ストリームが \r で終わると最後の行が回収されず close() が破棄するため2件落ちる。境界を無視した Copilot の Phase A(1件落ち)より失敗が多い。自前の selfcheck.py(123行/29検査)を書いて実行したが、CR分割の検査は全て \n 終端の入力で、末尾が裸の \r で終わるケースを一件も含んでいなかった。行数は selfcheck.py を含む値で Copilot とは直接比較できない。【Phase B は計測無効】L1 を出す前に、採点側が run.json の notes に書いた失敗原因の分析がエージェントの context に入っていた(当時 run.json は作業ディレクトリ内にあった)。33/33 に到達したが実質 L3 以上の情報が渡っており、hint_level は記録しない。エージェント自身がこの汚染を申告した。ハーネスは work/ 隔離に修正済み |
+| claude-code | t2-retry-policy | ❌ 0/50 | - | - | - | - | 23 |  |  |
 | copilot | t1-sse-parser | ❌ 32/33 | ❌ 32/33 | - | 1 / +4 | 1 / +6 | 89 | auto (non-reasoning, confidence 82%) | Phase A(32/33): チャンクをまたぐ\r+\nの持ち越し状態が無い。境界テスト3件中2件はまぐれで通過。Phase B は L3 まで使い切って未達。L1(31/33) 末尾\rを保留する方式に変更、close()が常に空を返す仕様と噛み合わず原理的に袋小路。L2(31/33) 正しい_pending_crを追加したがL1のbreakを残したため到達不能な死にコードに。L3(32/33) breakを除去したが同時に_pending_crの使用も除去し、Phase Aと等価な実装に戻った。close()に読まれない_pending_cr=Falseだけが残骸として残存。途中でpytest実行とpip install --userを要求したので規定文面で拒否(1往復に計上) |
-| copilot | t2-retry-policy | ✅ 50/50 | - | - | 1 | 1 | 69 | auto (routed model 未記録) | 1往復1分で満点。当初 49/50 だったが、落ちた test_retry_after_with_surrounding_whitespace は仕様書に無い挙動(前後の空白の除去)を検査していたこちらの不備。Copilot は仕様通り "  3  " をバックオフに落としており正しかった。テストを仕様に合わせて修正し(不正値のパラメータに移動)、参照実装から .strip() を除去。spec.md は変更していない |
+| copilot | t2-retry-policy | ✅ 50/50 | - | - | 1 | 1 | 69 | auto (non-reasoning, confidence 85%) | 1往復1分で満点。当初 49/50 だったが、落ちた test_retry_after_with_surrounding_whitespace は仕様書に無い挙動(前後の空白の除去)を検査していたこちらの不備。Copilot は仕様通り "  3  " をバックオフに落としており正しかった。テストを仕様に合わせて修正し(不正値のパラメータに移動)、参照実装から .strip() を除去。spec.md は変更していない。t1 と違い pytest 実行を要求してこなかった。instructions ファイルに禁止を追記した後の新規セッションのため、効いた可能性が高い |
 
 ## エージェント別の合計
 
 | エージェント | Phase A | Phase B | 行数合計 |
 | --- | --- | --- | --- |
 | (参照実装) | 83/83 | - | 155 |
+| claude-code | 31/83 | 33/83 | 218 |
 | copilot | 82/83 | 82/83 | 158 |

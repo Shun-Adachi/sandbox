@@ -10,8 +10,15 @@ ROOT = Path(__file__).resolve().parent.parent
 TASKS = ROOT / "tasks"
 RUNS = ROOT / "runs"
 
-# Phase A(一発勝負)終了時のスナップショットを置く場所。
-# Phase B で実装が上書きされても、初回の点数を残せるようにする。
+# runs/<エージェント>/<課題>/ の中身。
+#   work/     … エージェントに渡す唯一のパス。実装以外を置かない
+#   phase_a/  … Phase A 終了時のスナップショット。Phase B で上書きされても点が残る
+#   run.json  … 計測メタデータ
+# work/ の外に記録を置くのは、採点側が書いた内容がエージェントの context に
+# 入るのを防ぐため。run.json を work/ の中に置いていたとき、そこに書いた
+# 失敗原因の分析が Phase B の開始前にエージェントへ渡ってしまい、
+# ヒント段階の計測が 1 件無効になった。
+WORK = "work"
 PHASE_A = "phase_a"
 
 
@@ -28,6 +35,10 @@ def run_dir(agent: str, task: str) -> Path:
     return RUNS / agent / task
 
 
+def work_dir(directory: Path) -> Path:
+    return directory / WORK
+
+
 def list_runs() -> list[tuple[str, str, Path]]:
     """(エージェント名, 課題名, ディレクトリ) を昇順で返す。"""
     if not RUNS.is_dir():
@@ -36,7 +47,7 @@ def list_runs() -> list[tuple[str, str, Path]]:
     found = []
     for agent_dir in sorted(p for p in RUNS.iterdir() if p.is_dir()):
         for d in sorted(p for p in agent_dir.iterdir() if p.is_dir()):
-            if d.name in tasks:
+            if d.name in tasks and work_dir(d).is_dir():
                 found.append((agent_dir.name, d.name, d))
     return found
 
@@ -82,12 +93,12 @@ def same_solution(left: Path, right: Path) -> bool:
 
 
 def freeze_phase_a(directory: Path) -> bool:
-    """現在の実装を Phase A として凍結する。既に凍結済みなら何もしない。"""
+    """work/ の現状を Phase A として凍結する。既に凍結済みなら何もしない。"""
     dest = phase_a_dir(directory)
     if dest.exists():
         return False
     dest.mkdir()
-    for path in sorted(directory.glob("*.py")):
+    for path in sorted(work_dir(directory).glob("*.py")):
         shutil.copy2(path, dest / path.name)
     return True
 

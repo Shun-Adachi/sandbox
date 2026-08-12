@@ -14,7 +14,7 @@ import json
 import shutil
 import sys
 
-from bench import ROOT, list_tasks, run_dir, task_dir
+from bench import ROOT, list_tasks, run_dir, task_dir, work_dir
 
 META_TEMPLATE = {
     "agent": "",
@@ -44,7 +44,7 @@ def main() -> int:
         shutil.rmtree(dest)
 
     starter = task_dir(args.task) / "starter"
-    shutil.copytree(starter, dest)
+    shutil.copytree(starter, work_dir(dest))
 
     meta = dict(META_TEMPLATE, agent=args.agent)
     (dest / "run.json").write_text(
@@ -56,10 +56,12 @@ def main() -> int:
     print()
     print("エージェントに渡すもの:")
     print(f"  - 仕様      tasks/{args.task}/spec.md")
-    print(f"  - 作業場所  {rel}")
+    print(f"  - 作業場所  {rel}/work")
     print("  - 進め方    PROTOCOL.md")
     print()
-    print(f"終わったら {rel}/run.json に所要時間・往復回数を記入してから採点してください。")
+    print(f"run.json と phase_a/ は work/ の外に置いてある。")
+    print(f"採点側が書いた内容がエージェントの context に入らないようにするため、")
+    print(f"エージェントには {rel}/work だけを渡すこと。")
     return 0
 
 

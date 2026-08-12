@@ -34,6 +34,7 @@ from bench import (
     read_meta,
     same_solution,
     task_dir,
+    work_dir,
 )
 
 DOCS = ROOT / "docs"
@@ -109,19 +110,21 @@ def collect(
         print(f"採点中: {agent} / {task}", file=sys.stderr)
         meta = read_meta(directory)
         frozen = phase_a_dir(directory)
+        # 参照実装はディレクトリ直下、エージェントの成果物は work/ の中。
+        current = work_dir(directory) if is_run else directory
 
-        # phase_a/ が在れば、そちらが Phase A・直下が Phase B。
-        # 無ければ直下がまだ Phase A で、Phase B は未実施。
+        # phase_a/ が在れば、そちらが Phase A・work/ が Phase B。
+        # 無ければ work/ がまだ Phase A で、Phase B は未実施。
         if frozen.is_dir():
             phase_a = grade(task, frozen, totals[task])
             # 凍結直後は実装が phase_a/ と同一。Phase B が実際に手を入れたか、
             # あるいは run.json に往復数が記録されるまでは「未実施」として扱う。
             started = meta["phase_b"]["turns"] is not None or not same_solution(
-                directory, frozen
+                current, frozen
             )
-            phase_b = grade(task, directory, totals[task]) if started else None
+            phase_b = grade(task, current, totals[task]) if started else None
         else:
-            phase_a = grade(task, directory, totals[task])
+            phase_a = grade(task, current, totals[task])
             phase_b = None
             if is_run and freeze and freeze_phase_a(directory):
                 print(f"  → Phase A として凍結: {frozen.relative_to(ROOT)}", file=sys.stderr)
@@ -132,7 +135,7 @@ def collect(
                 "task": task,
                 "phase_a": phase_a,
                 "phase_b": phase_b,
-                "lines": code_lines(directory),
+                "lines": code_lines(current),
                 "model": meta.get("model") or "",
                 "mode": meta.get("mode") or "",
                 "a_minutes": meta["phase_a"]["minutes"],

@@ -47,10 +47,10 @@ API キーは不要。ここまでは Copilot が無くても動く。
 ### 1 回分を回す
 
 ```bash
-# 作業ディレクトリを用意する
+# 作業ディレクトリを用意する（runs/copilot/t1-sse-parser/work/ ができる）
 .venv/bin/python src/new_run.py --agent copilot --task t1-sse-parser
 
-# → エージェントに spec.md と PROTOCOL.md だけを渡して実装させる（Phase A）
+# → エージェントに spec.md と PROTOCOL.md、作業場所は work/ だけを渡す（Phase A）
 # → 終わったら run.json の phase_a に実測値を書く
 
 # 採点して Phase A を凍結する
@@ -119,6 +119,14 @@ Copilot Free でもエージェントモードは使える（補完 2,000 回 / 
   採点側は `phase_a/` と現在の実装のバイト比較で Phase B の実施有無を判定するので、
   凍結直後に採点しても Phase B が「未実施」と正しく出る。
 
+- **記録ファイルをエージェントの作業ディレクトリの外に出した**。当初は
+  `runs/<エージェント>/<課題>/` に実装と `run.json` を同居させていたが、
+  Phase A の失敗原因を `run.json` の `notes` に書いた結果、
+  **その分析が Phase B の開始前にエージェントの context へ入り、
+  L1（件数だけ）の計測が 1 件無効になった**。実装は `work/` に隔離し、
+  `run.json` と `phase_a/` はその外に置く構成に変えた。
+  計測ハーネスは、測る側が書いたものが被験側に見えない配置になっていないと成立しない。
+
 - **合格数以外に行数・所要時間・往復回数も残す**。同点になったときに差が見えないため。
   ただし後ろ 2 つは自己申告で、厳密な指標ではない。`run.json` に手で記録する。
 
@@ -181,6 +189,6 @@ Copilot 側の 2 課題のみ。比較対象がまだ無いので、現時点で
 
 - `src/` — 採点ハーネス（`new_run.py` で作業場所を用意、`score.py` で採点）
 - `tasks/` — 課題 2 件（仕様書 / starter / 隠しテスト 83 件 / 参照実装）
-- `runs/<エージェント>/<課題>/` — 現在の実装と `run.json`。`phase_a/` に一発勝負時点の凍結
+- `runs/<エージェント>/<課題>/` — `work/`(実装) / `phase_a/`(凍結) / `run.json`(計測メタ)
 - `docs/results.md` — 採点結果（`score.py` が生成。手で編集しない）
 - `PROTOCOL.md` — 条件を揃えるための手順
