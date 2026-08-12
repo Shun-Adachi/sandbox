@@ -1,0 +1,13 @@
+{
+  // Copilot にもルートの CLAUDE.md を読ませる。
+  // Claude Code と Copilot に同じ前提を与えたいので有効にしている。
+  "chat.useClaudeMdFile": true,
+
+  // テーマごとに venv を切るため、ワークスペース共通の interpreter は指定しない。
+  "python.terminal.activateEnvironment": false,
+
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true
+  }
+}

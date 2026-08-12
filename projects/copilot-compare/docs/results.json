@@ -1,0 +1,28 @@
+[
+  {
+    "agent": "(参照実装)",
+    "task": "t1-sse-parser",
+    "passed": 33,
+    "total": 33,
+    "status": "ok",
+    "lines": 94,
+    "model": "",
+    "mode": "",
+    "minutes": null,
+    "turns": null,
+    "notes": ""
+  },
+  {
+    "agent": "(参照実装)",
+    "task": "t2-retry-policy",
+    "passed": 50,
+    "total": 50,
+    "status": "ok",
+    "lines": 62,
+    "model": "",
+    "mode": "",
+    "minutes": null,
+    "turns": null,
+    "notes": ""
+  }
+]
