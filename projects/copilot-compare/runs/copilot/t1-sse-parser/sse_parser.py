@@ -59,9 +59,11 @@ class SSEParser:
             if ch == "\n":
                 return text[:i], "\n", text[i + 1 :]
             if ch == "\r":
-                if i + 1 < length and text[i + 1] == "\n":
-                    return text[:i], "\r\n", text[i + 2 :]
-                return text[:i], "\r", text[i + 1 :]
+                if i + 1 < length:
+                    if text[i + 1] == "\n":
+                        return text[:i], "\r\n", text[i + 2 :]
+                    return text[:i], "\r", text[i + 1 :]
+                break
             i += 1
         return None, "", text
 
