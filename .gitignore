@@ -14,11 +14,14 @@ build/
 # 機密
 .env
 .env.*
+!.env.example
 
 # サードパーティのクローン(Dify 本体など)
 projects/dify-workflow/dify/
 
 # データ・一時ファイル
 data/
+.cache/
+.pytest_cache/
 *.log
 .DS_Store
