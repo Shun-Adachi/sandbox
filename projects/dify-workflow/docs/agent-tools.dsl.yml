@@ -1,5 +1,5 @@
 app:
-  description: Web 検索ツールを使うリサーチエージェント
+  description: Open-Meteo カスタムツールを多段で呼ぶ天気エージェント
   icon: mag
   icon_background: '#D5F5F6'
   icon_type: emoji
@@ -14,7 +14,37 @@ workflow:
   environment_variables: []
   features:
     file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
       enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
     opening_statement: Web 検索を使って調べ物をするエージェントです。
     retriever_resource:
       enabled: false
@@ -32,6 +62,8 @@ workflow:
   graph:
     edges:
     - data:
+        isInIteration: false
+        isInLoop: false
         sourceType: start
         targetType: agent
       id: e1
@@ -40,7 +72,10 @@ workflow:
       target: agent
       targetHandle: target
       type: custom
+      zIndex: 0
     - data:
+        isInIteration: false
+        isInLoop: false
         sourceType: agent
         targetType: answer
       id: e2
@@ -49,16 +84,25 @@ workflow:
       target: answer
       targetHandle: target
       type: custom
+      zIndex: 0
     nodes:
     - data:
+        selected: false
         title: 開始
         type: start
         variables: []
+      height: 73
       id: start
       position:
         x: 30
         y: 200
+      positionAbsolute:
+        x: 30
+        y: 200
+      selected: true
       type: custom
+      width: 242
+      zIndex: 0
     - data:
         agent_parameters:
           instruction:
@@ -139,21 +183,41 @@ workflow:
         agent_strategy_provider_name: langgenius/agent/agent
         output_schema: null
         plugin_unique_identifier: langgenius/agent:0.0.42@2ae22966e893dced869cf04dba918eff6c14c05a3c3d7f04c2ed4f7da825b67f
+        selected: false
         title: リサーチエージェント
         tool_node_version: '2'
         type: agent
+      height: 188
       id: agent
       position:
         x: 330
         y: 200
+      positionAbsolute:
+        x: 330
+        y: 200
+      selected: false
       type: custom
+      width: 242
+      zIndex: 0
     - data:
         answer: '{{#agent.text#}}'
+        selected: false
         title: 回答
         type: answer
+      height: 102
       id: answer
       position:
         x: 630
         y: 200
+      positionAbsolute:
+        x: 630
+        y: 200
+      selected: false
       type: custom
+      width: 242
+      zIndex: 0
+    viewport:
+      x: 0
+      y: 0
+      zoom: 1
   rag_pipeline_variables: []

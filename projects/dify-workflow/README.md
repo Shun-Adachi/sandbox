@@ -23,6 +23,8 @@ git checkout 1.16.1   # 検証時のバージョンに固定
 # 2. 環境設定を作成して起動
 cd docker
 cp .env.example .env
+# SECRET_KEY は空のままだと storage が書けない環境で api が起動しないため明示設定する
+sed -i "s|^SECRET_KEY=.*|SECRET_KEY=$(openssl rand -base64 42 | tr -d '\n')|" .env
 docker compose up -d
 
 # 3. 初期セットアップ(管理者アカウント作成)
@@ -64,6 +66,9 @@ docker compose up -d
 
 ## 成果物
 
+![Dify スタジオに並んだ 3 つのワークフロー](docs/studio.png)
+
+- `docs/studio.png` — 構築した 3 アプリ(スタジオ画面)
 - `docs/rag-qa.dsl.yml` — RAG Q&A チャットフローの DSL
 - `docs/doc-extract.dsl.yml` — 構造化抽出ワークフローの DSL
 - `docs/agent-tools.dsl.yml` — 天気エージェントの DSL
