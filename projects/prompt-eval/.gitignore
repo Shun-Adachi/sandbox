@@ -4,3 +4,4 @@ __pycache__/
 .pytest_cache/
 # 評価の実行結果。代表的なレポートは docs/ に残す
 runs/
+src/prompt_eval.egg-info/
