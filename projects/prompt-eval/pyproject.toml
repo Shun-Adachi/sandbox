@@ -1,0 +1,32 @@
+# CLI(prompt-eval コマンド)を持つので、llm-api と違いパッケージとして
+# editable install する。配布はしないので版番号は形だけ。
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prompt-eval"
+version = "0.1.0"
+description = "プロンプト版を評価データセットで採点するハーネス"
+requires-python = ">=3.11"
+dependencies = [
+    "httpx>=0.27",
+    "pydantic>=2.7",
+    "python-dotenv>=1.0",
+    "PyYAML>=6.0",
+    "openai>=1.40",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+prompt-eval = "prompt_eval.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["prompt_eval*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

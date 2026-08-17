@@ -1,0 +1,2 @@
+[console_scripts]
+prompt-eval = prompt_eval.cli:main

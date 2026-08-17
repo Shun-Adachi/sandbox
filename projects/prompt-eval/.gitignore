@@ -1,0 +1,6 @@
+.venv/
+.env
+__pycache__/
+.pytest_cache/
+# 評価の実行結果。代表的なレポートは docs/ に残す
+runs/

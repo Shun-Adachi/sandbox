@@ -1,0 +1,362 @@
+{
+  "r001": {
+    "case_id": "c09",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r002": {
+    "case_id": "c18",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r003": {
+    "case_id": "c24",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r004": {
+    "case_id": "c07",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r005": {
+    "case_id": "c04",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r006": {
+    "case_id": "c13",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r007": {
+    "case_id": "c20",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r008": {
+    "case_id": "c08",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r009": {
+    "case_id": "c17",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r010": {
+    "case_id": "c15",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r011": {
+    "case_id": "c06",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r012": {
+    "case_id": "c17",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r013": {
+    "case_id": "c06",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r014": {
+    "case_id": "c01",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r015": {
+    "case_id": "c21",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r016": {
+    "case_id": "c18",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r017": {
+    "case_id": "c09",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r018": {
+    "case_id": "c16",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r019": {
+    "case_id": "c11",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r020": {
+    "case_id": "c04",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r021": {
+    "case_id": "c11",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r022": {
+    "case_id": "c05",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r023": {
+    "case_id": "c10",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r024": {
+    "case_id": "c05",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r025": {
+    "case_id": "c09",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r026": {
+    "case_id": "c20",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r027": {
+    "case_id": "c11",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r028": {
+    "case_id": "c23",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r029": {
+    "case_id": "c12",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r030": {
+    "case_id": "c21",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r031": {
+    "case_id": "c16",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r032": {
+    "case_id": "c15",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r033": {
+    "case_id": "c14",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r034": {
+    "case_id": "c21",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r035": {
+    "case_id": "c23",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r036": {
+    "case_id": "c18",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r037": {
+    "case_id": "c19",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r038": {
+    "case_id": "c06",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r039": {
+    "case_id": "c01",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r040": {
+    "case_id": "c03",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r041": {
+    "case_id": "c02",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r042": {
+    "case_id": "c15",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r043": {
+    "case_id": "c22",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r044": {
+    "case_id": "c03",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r045": {
+    "case_id": "c03",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r046": {
+    "case_id": "c01",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r047": {
+    "case_id": "c14",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r048": {
+    "case_id": "c02",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r049": {
+    "case_id": "c08",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r050": {
+    "case_id": "c17",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r051": {
+    "case_id": "c08",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r052": {
+    "case_id": "c05",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r053": {
+    "case_id": "c07",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r054": {
+    "case_id": "c23",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r055": {
+    "case_id": "c19",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r056": {
+    "case_id": "c10",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r057": {
+    "case_id": "c04",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r058": {
+    "case_id": "c02",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r059": {
+    "case_id": "c13",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r060": {
+    "case_id": "c24",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r061": {
+    "case_id": "c10",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r062": {
+    "case_id": "c12",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r063": {
+    "case_id": "c20",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r064": {
+    "case_id": "c22",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r065": {
+    "case_id": "c19",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r066": {
+    "case_id": "c07",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r067": {
+    "case_id": "c14",
+    "prompt_version": "v2",
+    "repeat": 0
+  },
+  "r068": {
+    "case_id": "c24",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r069": {
+    "case_id": "c12",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r070": {
+    "case_id": "c16",
+    "prompt_version": "v3",
+    "repeat": 0
+  },
+  "r071": {
+    "case_id": "c13",
+    "prompt_version": "v1",
+    "repeat": 0
+  },
+  "r072": {
+    "case_id": "c22",
+    "prompt_version": "v1",
+    "repeat": 0
+  }
+}
