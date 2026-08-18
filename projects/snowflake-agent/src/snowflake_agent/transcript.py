@@ -10,7 +10,7 @@ from __future__ import annotations
 from datetime import datetime
 from pathlib import Path
 
-from langchain_core.messages import AIMessage, BaseMessage, ToolMessage
+from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, ToolMessage
 
 
 def _render_ai_message(message: AIMessage, turn: int) -> list[str]:
@@ -68,6 +68,9 @@ def render_transcript(
             usage = message.usage_metadata or {}
             total_in += usage.get("input_tokens", 0)
             total_out += usage.get("output_tokens", 0)
+        elif isinstance(message, HumanMessage):
+            # 対話継続時の追質問(最初の質問は冒頭の「## 質問」に載る)
+            lines += ["", "## 追質問", "", str(message.content)]
         elif isinstance(message, ToolMessage):
             lines += [
                 "",

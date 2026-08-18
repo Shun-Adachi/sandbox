@@ -5,3 +5,5 @@ __pycache__/
 src/snowflake_agent.egg-info/
 # 実行トランスクリプト。代表例は docs/ に転記する
 runs/
+# 会話履歴の永続化 DB(SQLite チェックポイント)
+data/

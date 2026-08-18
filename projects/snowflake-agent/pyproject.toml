@@ -10,6 +10,7 @@ description = "自然言語の質問から Snowflake に SQL を発行し分析�
 requires-python = ">=3.11"
 dependencies = [
     "langgraph>=0.6",
+    "langgraph-checkpoint-sqlite>=2.0",
     "langchain-anthropic>=0.3",
     "langchain-core>=0.3",
     "snowflake-connector-python>=3.12",
