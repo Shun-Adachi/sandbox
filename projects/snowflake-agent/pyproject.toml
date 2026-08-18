@@ -1,0 +1,32 @@
+# prompt-eval と同じく CLI(snowflake-agent コマンド)を持つため editable install する
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "snowflake-agent"
+version = "0.1.0"
+description = "自然言語の質問から Snowflake に SQL を発行し分析結果を返す Agent (PoC)"
+requires-python = ">=3.11"
+dependencies = [
+    "langgraph>=0.6",
+    "langchain-anthropic>=0.3",
+    "langchain-core>=0.3",
+    "snowflake-connector-python>=3.12",
+    "sqlglot>=25.0",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+snowflake-agent = "snowflake_agent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["snowflake_agent*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

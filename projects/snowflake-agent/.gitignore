@@ -1,0 +1,7 @@
+.venv/
+.env
+__pycache__/
+.pytest_cache/
+src/snowflake_agent.egg-info/
+# 実行トランスクリプト。代表例は docs/ に転記する
+runs/
